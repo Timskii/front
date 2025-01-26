@@ -1,0 +1,70 @@
+buildscript {
+    repositories {
+    	mavenCentral()
+	    maven { setUrl("https://maven.vaadin.com/vaadin-prereleases") }
+			maven { setUrl("https://repo.spring.io/milestone") }
+		}
+}
+plugins {
+	id 'org.springframework.boot' version '3.3.4'
+	id 'io.spring.dependency-management' version '1.1.6'
+	id 'java'
+	id 'com.vaadin'
+}
+
+repositories {
+	mavenCentral()
+	maven { setUrl("https://maven.vaadin.com/vaadin-prereleases") }
+	maven { setUrl("https://repo.spring.io/milestone") }
+	maven { setUrl("https://maven.vaadin.com/vaadin-addons") }
+}
+
+configurations {
+	developmentOnly
+	runtimeClasspath {
+		extendsFrom developmentOnly
+	}
+}
+
+dependencies {
+	implementation('com.vaadin:vaadin-spring-boot-starter')
+	developmentOnly 'org.springframework.boot:spring-boot-devtools'
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+	implementation 'org.springframework.boot:spring-boot-starter-actuator'
+	implementation 'org.springframework.boot:spring-boot-starter-security'
+	implementation 'org.flywaydb:flyway-core'
+	implementation 'org.flywaydb:flyway-database-postgresql'
+	implementation 'org.parttio:line-awesome:2.1.0'
+
+	compileOnly("org.projectlombok:lombok")
+	runtimeOnly("org.postgresql:postgresql")
+	annotationProcessor("org.projectlombok:lombok")
+
+	testImplementation('org.springframework.boot:spring-boot-starter-test') {
+		exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
+	}
+}
+
+dependencyManagement {
+	imports {
+		mavenBom "com.vaadin:vaadin-bom:$vaadinVersion"
+	}
+}
+
+task prefixNewMigrations(group: 'flyway') {
+
+	fileTree(dir: getProjectDir().toString() + '/src/main/resources/db/migration/V1').exclude({ isFilePrefixed(it.file)}).exclude('callbacks').each {
+		file -> doLast {
+			def timestamp = new Date().format('yyyyMMddHHmmssSSS', TimeZone.getTimeZone('GMT'))
+			println "Renaming $file.name to V${timestamp}__$file.name"
+			def migrationPrefix = "V"
+			file.renameTo("$file.parentFile.absolutePath$file.separator$migrationPrefix${timestamp}__$file.name")
+			// Sleep for a moment to avoid prefix conflicts when renaming multiple files
+			sleep(1*1000)
+		}
+	}
+}
+
+static def isFilePrefixed(file) {
+	return (file.name ==~ '^V.*__.*\\.sql\$') || (file.name ==~ '^R__.*\\.sql\$') || (file.name ==~ '^\\d+__.*\\.sql\$')
+}

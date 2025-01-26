@@ -1,0 +1,75 @@
+spring:
+  jackson:
+    default-property-inclusion: non_null
+    mapper:
+      accept-case-insensitive-properties: true
+  datasource:
+    url: ${DATASOURCE_URL:jdbc:postgresql://localhost:5432/front}
+    username: ${DATASOURCE_USERNAME:user}
+    password: ${DATASOURCE_PASSWORD:password}
+    driver-class-name: org.postgresql.Driver
+
+
+  jpa:
+    hibernate.ddl-auto: none
+    show-sql: ${JPA_SHOW_SQL:false}
+    properties:
+      hibernate:
+        format_sql: ${JPA_FORMAT_SQL:false}
+        id.db_structure_naming_strategy: legacy
+
+  servlet:
+    multipart:
+      max-file-size: 200MB
+      max-request-size: 200MB
+
+  flyway:
+    enabled: true
+    clean-disabled: true
+    out-of-order: true
+    baseline-on-migrate: true
+    validate-on-migrate: false
+    schemas: front
+    default-schema: front
+
+  security:
+    enabled: true
+
+management:
+  health:
+    mail:
+      enabled: false
+  server:
+    port: ${MANAGEMENT_PORT:8008}
+    ssl.enabled: false
+  endpoints:
+    web:
+      exposure:
+        include: prometheus,health,info,metric
+
+jwt:
+  secret: ${JWT_SECRET:404E635266556A586E3272357538782F413F4428472B4B6250645367566B5970}
+  lifespan-minutes: ${JWT_LIFESPAN_MINUTES:30}
+  remove-delay: ${JWT_REMOVE_DELAY:60000}
+
+logging:
+  level:
+    root: INFO
+    org:
+      springframework:
+        cloud:
+          openfeign: DEBUG
+      hibernate:
+        SQL: INFO
+        type:
+          descriptor:
+            sql:
+              BasicBinder: INFO
+
+springdoc:
+  api-docs:
+    path: /api/front
+  swagger-ui:
+    disable-swagger-default-url: true
+    url: /api/front
+
