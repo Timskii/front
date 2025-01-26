@@ -1,7 +1,10 @@
 package kz.timskii.front.views.imagegallery;
 
+import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.html.*;
+import com.vaadin.flow.component.html.Image;
 import com.vaadin.flow.theme.lumo.LumoUtility.*;
+
 
 public class ImageGalleryViewCard extends ListItem {
 
@@ -37,7 +40,14 @@ public class ImageGalleryViewCard extends ListItem {
         badge.getElement().setAttribute("theme", "badge");
         badge.setText("Label");
 
-        add(div, header, subtitle, description, badge);
+        // Добавляем кнопку для скачивания изображения
+        Button downloadButton = new Button("Download");
+        downloadButton.addClassNames(Margin.Top.MEDIUM);
+
+        // Устанавливаем ссылку для скачивания
+        Anchor downloadLink = new Anchor(url, downloadButton);
+        downloadLink.getElement().setAttribute("download", true); // Устанавливаем атрибут "download"
+        add(div, header, subtitle, description, badge, downloadLink);
 
     }
 }
