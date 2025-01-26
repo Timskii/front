@@ -27,7 +27,7 @@ public class ImageGalleryViewCard extends ListItem {
 
         Span subtitle = new Span();
         subtitle.addClassNames(FontSize.SMALL, TextColor.SECONDARY);
-        subtitle.setText("Card subtitle");
+        subtitle.setText(text);
 
         Paragraph description = new Paragraph(
                 "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut.");

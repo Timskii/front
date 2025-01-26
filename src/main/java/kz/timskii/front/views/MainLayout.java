@@ -68,6 +68,8 @@ public class MainLayout extends AppLayout {
         this.accessChecker = accessChecker;
 
         addToNavbar(createHeaderContent());
+        RouterLink uploadLink = new RouterLink("Upload Basic", UploadBasic.class);
+        addToNavbar(uploadLink);
     }
 
     private Component createHeaderContent() {

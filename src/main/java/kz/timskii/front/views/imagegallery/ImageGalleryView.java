@@ -16,6 +16,8 @@ import com.vaadin.flow.theme.lumo.LumoUtility.*;
 import jakarta.annotation.security.PermitAll;
 import org.vaadin.lineawesome.LineAwesomeIconUrl;
 
+import java.io.File;
+
 @PageTitle("Image Gallery")
 @Route("")
 @Menu(order = 0, icon = LineAwesomeIconUrl.TH_LIST_SOLID)
@@ -27,18 +29,20 @@ public class ImageGalleryView extends Main implements HasComponents, HasStyle {
     public ImageGalleryView() {
         constructUI();
 
-        imageContainer.add(new ImageGalleryViewCard("Snow mountains under stars",
-                "https://images.unsplash.com/photo-1519681393784-d120267933ba?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=750&q=80"));
-        imageContainer.add(new ImageGalleryViewCard("Snow covered mountain",
-                "https://images.unsplash.com/photo-1512273222628-4daea6e55abb?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=750&q=80"));
-        imageContainer.add(new ImageGalleryViewCard("River between mountains",
-                "https://images.unsplash.com/photo-1536048810607-3dc7f86981cb?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=375&q=80"));
-        imageContainer.add(new ImageGalleryViewCard("Milky way on mountains",
-                "https://images.unsplash.com/photo-1515705576963-95cad62945b6?ixlib=rb-1.2.1&ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&auto=format&fit=crop&w=750&q=80"));
-        imageContainer.add(new ImageGalleryViewCard("Mountain with fog",
-                "https://images.unsplash.com/photo-1513147122760-ad1d5bf68cdb?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=80"));
-        imageContainer.add(new ImageGalleryViewCard("Mountain at night",
-                "https://images.unsplash.com/photo-1562832135-14a35d25edef?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=815&q=80"));
+        final File folder = new File("uploads/");
+
+        // Проверяем наличие папки и файлов
+        if (folder.exists() && folder.isDirectory()) {
+            for (final File fileEntry : folder.listFiles()) {
+                if (fileEntry.isFile() && isImage(fileEntry.getName())) {
+                    // Генерируем URL для доступа к изображению
+                    String imageUrl = "/images?filename=" + fileEntry.getName();
+
+                    // Создаем и добавляем карточку
+                    imageContainer.add(new ImageGalleryViewCard(fileEntry.getName(), imageUrl));
+                }
+            }
+        }
 
     }
 
@@ -67,5 +71,10 @@ public class ImageGalleryView extends Main implements HasComponents, HasStyle {
         container.add(headerContainer, sortBy);
         add(container, imageContainer);
 
+    }
+    private boolean isImage(String fileName) {
+        // Проверяем расширение файла
+        String lowerName = fileName.toLowerCase();
+        return lowerName.endsWith(".png") || lowerName.endsWith(".jpg") || lowerName.endsWith(".jpeg") || lowerName.endsWith(".gif");
     }
 }
