@@ -15,10 +15,10 @@ public class ImageGalleryViewCard extends ListItem {
         Div div = new Div();
         div.addClassNames(Background.CONTRAST, Display.FLEX, AlignItems.CENTER, JustifyContent.CENTER,
                 Margin.Bottom.MEDIUM, Overflow.HIDDEN, BorderRadius.MEDIUM, Width.FULL);
-        div.setHeight("160px");
+        div.setHeight("200px");
 
         Image image = new Image();
-        image.setWidth("100%");
+        image.setWidth("50%");
         image.setSrc(url);
         image.setAlt(text);
 
@@ -33,7 +33,7 @@ public class ImageGalleryViewCard extends ListItem {
         subtitle.setText(text);
 
         Paragraph description = new Paragraph(
-                "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut.");
+                "Lorem ipsum dolor sit amet");
         description.addClassName(Margin.Vertical.MEDIUM);
 
         Span badge = new Span();
