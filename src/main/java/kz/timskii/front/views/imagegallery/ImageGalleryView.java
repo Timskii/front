@@ -19,7 +19,7 @@ import org.vaadin.lineawesome.LineAwesomeIconUrl;
 import java.io.File;
 
 @PageTitle("Image Gallery")
-@Route("")
+@Route("/image")
 @Menu(order = 0, icon = LineAwesomeIconUrl.TH_LIST_SOLID)
 @PermitAll
 public class ImageGalleryView extends Main implements HasComponents, HasStyle {
