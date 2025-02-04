@@ -14,6 +14,8 @@ import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.theme.lumo.LumoUtility.*;
 import jakarta.annotation.security.PermitAll;
+import kz.timskii.front.services.FileService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.vaadin.lineawesome.LineAwesomeIconUrl;
 
 import java.io.File;
@@ -26,24 +28,13 @@ public class ImageGalleryView extends Main implements HasComponents, HasStyle {
 
     private OrderedList imageContainer;
 
-    public ImageGalleryView() {
+    public ImageGalleryView(FileService fileService) {
         constructUI();
 
-        final File folder = new File("uploads/");
 
-        // Проверяем наличие папки и файлов
-        if (folder.exists() && folder.isDirectory()) {
-            for (final File fileEntry : folder.listFiles()) {
-                if (fileEntry.isFile() && isImage(fileEntry.getName())) {
-                    // Генерируем URL для доступа к изображению
-                    String imageUrl = "/images?filename=" + fileEntry.getName();
-
-                    // Создаем и добавляем карточку
-                    imageContainer.add(new ImageGalleryViewCard(fileEntry.getName(), imageUrl));
-                }
-            }
-        }
-
+        // Создаем и добавляем карточку
+        fileService.getFilenamesByFolder("uploads/")
+                .forEach((f, u)->  imageContainer.add(new ImageGalleryViewCard(f, u)));
     }
 
     private void constructUI() {
@@ -66,15 +57,10 @@ public class ImageGalleryView extends Main implements HasComponents, HasStyle {
         sortBy.setValue("Popularity");
 
         imageContainer = new OrderedList();
-        imageContainer.addClassNames(Gap.MEDIUM, Display.GRID, ListStyleType.NONE, Margin.NONE, Padding.NONE);
+        imageContainer.addClassNames(Gap.SMALL, Display.GRID, ListStyleType.NONE, Margin.MEDIUM, Padding.NONE);
 
         container.add(headerContainer, sortBy);
         add(container, imageContainer);
 
-    }
-    private boolean isImage(String fileName) {
-        // Проверяем расширение файла
-        String lowerName = fileName.toLowerCase();
-        return lowerName.endsWith(".png") || lowerName.endsWith(".jpg") || lowerName.endsWith(".jpeg") || lowerName.endsWith(".gif");
     }
 }

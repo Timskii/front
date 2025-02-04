@@ -21,6 +21,7 @@ import com.vaadin.flow.theme.lumo.LumoUtility;
 import com.vaadin.flow.theme.lumo.LumoUtility.*;
 import kz.timskii.front.data.User;
 import kz.timskii.front.security.AuthenticatedUser;
+import kz.timskii.front.services.FileService;
 import kz.timskii.front.views.imagegallery.ImageGalleryView;
 import org.vaadin.lineawesome.LineAwesomeIcon;
 
@@ -68,19 +69,19 @@ public class MainLayout extends AppLayout {
 
     private AuthenticatedUser authenticatedUser;
     private AccessAnnotationChecker accessChecker;
+    private FileService fileService;
 
-    public MainLayout(AuthenticatedUser authenticatedUser, AccessAnnotationChecker accessChecker) {
+    public MainLayout(AuthenticatedUser authenticatedUser, AccessAnnotationChecker accessChecker, FileService fileService) {
         this.authenticatedUser = authenticatedUser;
         this.accessChecker = accessChecker;
+        this.fileService = fileService;
 
         addToNavbar(createHeaderContent());
-        RouterLink uploadLink = new RouterLink("Upload Basic", UploadBasic.class);
-        addToNavbar(uploadLink);
         addDrawerContent();
     }
 
     private void addDrawerContent() {
-        Span appName = new Span("777");
+        Span appName = new Span("Навигация по папкам");
         appName.addClassNames(LumoUtility.FontWeight.SEMIBOLD, LumoUtility.FontSize.LARGE);
         Header header = new Header(appName);
 
@@ -97,6 +98,9 @@ public class MainLayout extends AppLayout {
     private SideNav createNavigation() {
         SideNav nav = new SideNav();
 
+        fileService.getFolders("uploads/")
+                .forEach(f -> nav.addItem(new SideNavItem(f)));
+
         List<MenuEntry> menuEntries = MenuConfiguration.getMenuEntries();
         menuEntries.forEach(entry -> {
             if (entry.icon() != null) {
@@ -105,6 +109,7 @@ public class MainLayout extends AppLayout {
                 nav.addItem(new SideNavItem(entry.title(), entry.path()));
             }
         });
+
 
         return nav;
     }
@@ -172,7 +177,8 @@ public class MainLayout extends AppLayout {
 
     private MenuItemInfo[] createMenuItems() {
         return new MenuItemInfo[]{ //
-                new MenuItemInfo("Image Gallery", LineAwesomeIcon.TH_LIST_SOLID.create(), ImageGalleryView.class), //
+                new MenuItemInfo("Image Gallery", LineAwesomeIcon.TH_LIST_SOLID.create(), ImageGalleryView.class),
+                new MenuItemInfo("Upload Basic", LineAwesomeIcon.TH_LIST_SOLID.create(), UploadBasic.class),
 
         };
     }

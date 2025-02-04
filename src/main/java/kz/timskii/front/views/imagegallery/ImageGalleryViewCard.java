@@ -18,7 +18,7 @@ public class ImageGalleryViewCard extends ListItem {
         div.setHeight("200px");
 
         Image image = new Image();
-        image.setWidth("50%");
+        image.setWidth("100%");
         image.setSrc(url);
         image.setAlt(text);
 
