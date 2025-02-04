@@ -9,10 +9,11 @@ import java.util.*;
 
 @Service
 public class FileService {
+    private static final String UPLOAD_DIR = "uploads/";
 
     public void upload (InputStream inputStream, String fileName){
         // Путь для сохранения файла
-        File targetFile = new File("uploads/" + fileName);
+        File targetFile = new File(UPLOAD_DIR + fileName);
 
         // Убедимся, что папка "uploads" существует
         targetFile.getParentFile().mkdirs();
@@ -29,7 +30,7 @@ public class FileService {
 
     public Map<String, String> getFilenamesByFolder(String folderName){
         Map<String, String > imageUrls = new HashMap<>();
-        final File folder = new File(folderName);
+        final File folder = new File(UPLOAD_DIR+folderName);
 
 
         // Проверяем наличие папки и файлов
@@ -37,7 +38,7 @@ public class FileService {
             for (final File fileEntry : folder.listFiles()) {
                 if (fileEntry.isFile() && isImage(fileEntry.getName())) {
                     // Генерируем URL для доступа к изображению
-                    imageUrls.put(fileEntry.getName(), "/images?filename=" + fileEntry.getName());
+                    imageUrls.put(fileEntry.getName(), "/images?filename=" +fileEntry.getName() + "&folder=" + folderName);
                 }
             }
         }

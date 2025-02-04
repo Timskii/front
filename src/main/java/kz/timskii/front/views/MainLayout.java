@@ -6,17 +6,15 @@ import com.vaadin.flow.component.avatar.Avatar;
 import com.vaadin.flow.component.contextmenu.MenuItem;
 import com.vaadin.flow.component.html.*;
 import com.vaadin.flow.component.icon.Icon;
-import com.vaadin.flow.component.icon.SvgIcon;
 import com.vaadin.flow.component.menubar.MenuBar;
 import com.vaadin.flow.component.orderedlayout.Scroller;
 import com.vaadin.flow.component.sidenav.SideNav;
 import com.vaadin.flow.component.sidenav.SideNavItem;
 import com.vaadin.flow.router.Layout;
+import com.vaadin.flow.router.QueryParameters;
 import com.vaadin.flow.router.RouterLink;
 import com.vaadin.flow.server.auth.AccessAnnotationChecker;
 import com.vaadin.flow.server.auth.AnonymousAllowed;
-import com.vaadin.flow.server.menu.MenuConfiguration;
-import com.vaadin.flow.server.menu.MenuEntry;
 import com.vaadin.flow.theme.lumo.LumoUtility;
 import com.vaadin.flow.theme.lumo.LumoUtility.*;
 import kz.timskii.front.data.User;
@@ -25,7 +23,6 @@ import kz.timskii.front.services.FileService;
 import kz.timskii.front.views.imagegallery.ImageGalleryView;
 import org.vaadin.lineawesome.LineAwesomeIcon;
 
-import java.util.List;
 import java.util.Optional;
 
 /**
@@ -99,18 +96,12 @@ public class MainLayout extends AppLayout {
         SideNav nav = new SideNav();
 
         fileService.getFolders("uploads/")
-                .forEach(f -> nav.addItem(new SideNavItem(f)));
-
-        List<MenuEntry> menuEntries = MenuConfiguration.getMenuEntries();
-        menuEntries.forEach(entry -> {
-            if (entry.icon() != null) {
-                nav.addItem(new SideNavItem(entry.title(), entry.path(), new SvgIcon(entry.icon())));
-            } else {
-                nav.addItem(new SideNavItem(entry.title(), entry.path()));
-            }
-        });
-
-
+                .forEach(folder -> {
+                    SideNavItem sideNavItem = new SideNavItem(folder, "image");
+                    sideNavItem.setQueryParameters(QueryParameters.of("folder", folder));
+                    nav.addItem(sideNavItem);
+                        }
+                );
         return nav;
     }
 

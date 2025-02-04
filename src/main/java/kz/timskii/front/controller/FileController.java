@@ -16,12 +16,12 @@ import java.nio.file.Paths;
 @RestController
 public class FileController {
 
-    private static final String UPLOAD_DIR = "uploads";
+    private static final String UPLOAD_DIR = "uploads/";
 
     @GetMapping("/images")
-    public ResponseEntity<Resource> getImage(@RequestParam String filename) {
+    public ResponseEntity<Resource> getImage(@RequestParam String filename, @RequestParam String folder) {
         try {
-            Path filePath = Paths.get(UPLOAD_DIR).resolve(filename).normalize();
+            Path filePath = Paths.get(UPLOAD_DIR + folder).resolve(filename).normalize();
             Resource resource = new UrlResource(filePath.toUri());
 
             if (resource.exists() && resource.isReadable()) {
