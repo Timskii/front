@@ -13,7 +13,7 @@ public class FileService {
 
     public void upload (InputStream inputStream, String fileName, String folderName){
         // Путь для сохранения файла
-        File targetFile = new File(UPLOAD_DIR + fileName);
+        File targetFile = new File(UPLOAD_DIR+folderName+"/" + fileName);
 
         // Убедимся, что папка "uploads" существует
         targetFile.getParentFile().mkdirs();
