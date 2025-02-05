@@ -11,7 +11,7 @@ import java.util.*;
 public class FileService {
     private static final String UPLOAD_DIR = "uploads/";
 
-    public void upload (InputStream inputStream, String fileName){
+    public void upload (InputStream inputStream, String fileName, String folderName){
         // Путь для сохранения файла
         File targetFile = new File(UPLOAD_DIR + fileName);
 
@@ -60,5 +60,12 @@ public class FileService {
         }
 
         return folders;
+    }
+
+    public void createFolder(String folderName){
+        File theDir = new File(UPLOAD_DIR + folderName);
+        if (!theDir.exists()){
+            theDir.mkdirs();
+        }
     }
 }

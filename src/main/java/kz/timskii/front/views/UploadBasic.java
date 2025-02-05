@@ -27,7 +27,7 @@ public class UploadBasic extends Div {
         upload.addSucceededListener(event -> {
             String fileName = event.getFileName();
 
-            fileService.upload(buffer.getInputStream(fileName), fileName);
+            fileService.upload(buffer.getInputStream(fileName), fileName, "");
         });
 
 

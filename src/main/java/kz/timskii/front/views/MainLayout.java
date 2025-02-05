@@ -20,6 +20,7 @@ import com.vaadin.flow.theme.lumo.LumoUtility.*;
 import kz.timskii.front.data.User;
 import kz.timskii.front.security.AuthenticatedUser;
 import kz.timskii.front.services.FileService;
+import kz.timskii.front.views.folder.ButtonIcons;
 import kz.timskii.front.views.imagegallery.ImageGalleryView;
 import org.vaadin.lineawesome.LineAwesomeIcon;
 
@@ -67,6 +68,8 @@ public class MainLayout extends AppLayout {
     private AuthenticatedUser authenticatedUser;
     private AccessAnnotationChecker accessChecker;
     private FileService fileService;
+    private SideNav nav; // Теперь SideNav хранится в поле
+    private Scroller scroller; // Храним ссылку на Scroller
 
     public MainLayout(AuthenticatedUser authenticatedUser, AccessAnnotationChecker accessChecker, FileService fileService) {
         this.authenticatedUser = authenticatedUser;
@@ -81,15 +84,26 @@ public class MainLayout extends AppLayout {
         Span appName = new Span("Навигация по папкам");
         appName.addClassNames(LumoUtility.FontWeight.SEMIBOLD, LumoUtility.FontSize.LARGE);
         Header header = new Header(appName);
-
-        Scroller scroller = new Scroller(createNavigation());
+        nav = createNavigation();
+        scroller = new Scroller(nav);
 
         addToDrawer(header, scroller, createFooter());
     }
     private Footer createFooter() {
         Footer layout = new Footer();
-
+        ButtonIcons buttonIcons = new ButtonIcons(fileService, this::updateNavigation);
+        layout.add(buttonIcons);
         return layout;
+    }
+
+    private void updateNavigation(String newFolder) {
+        // Добавляем новый пункт в SideNav (без перерисовки всей навигации)
+        SideNavItem newItem = new SideNavItem(newFolder, "image");
+        newItem.setQueryParameters(QueryParameters.of("folder", newFolder));
+        nav.addItem(newItem);
+
+        // Пересоздаем Scroller с обновленным nav
+        scroller.setContent(nav);
     }
 
     private SideNav createNavigation() {
@@ -100,8 +114,7 @@ public class MainLayout extends AppLayout {
                     SideNavItem sideNavItem = new SideNavItem(folder, "image");
                     sideNavItem.setQueryParameters(QueryParameters.of("folder", folder));
                     nav.addItem(sideNavItem);
-                        }
-                );
+                        });
         return nav;
     }
 
