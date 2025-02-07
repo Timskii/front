@@ -16,7 +16,7 @@ import java.util.function.Consumer;
 
 public class ButtonIcons extends Div {
     private FileService fileService;
-    private  TextField folderName;
+    private TextField folderName;
     private final Consumer<String> onFolderCreated; // Callback для обновления SideNav
 
     public ButtonIcons(FileService fileService, Consumer<String> onFolderCreated) {

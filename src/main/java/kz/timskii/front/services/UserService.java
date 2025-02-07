@@ -14,9 +14,11 @@ import java.util.UUID;
 public class UserService {
 
     private final UserRepository repository;
+    private final AuthenticationFacade authenticationFacade;
 
-    public UserService(UserRepository repository) {
+    public UserService(UserRepository repository, AuthenticationFacade authenticationFacade) {
         this.repository = repository;
+        this.authenticationFacade = authenticationFacade;
     }
 
     public Optional<User> get(UUID id) {
@@ -43,4 +45,8 @@ public class UserService {
         return (int) repository.count();
     }
 
+    public void printCurrentUser() {
+        String username = authenticationFacade.getCurrentUsername();
+        System.out.println("Текущий пользователь: " + username);
+    }
 }

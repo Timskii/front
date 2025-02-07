@@ -20,6 +20,7 @@ import com.vaadin.flow.theme.lumo.LumoUtility.*;
 import kz.timskii.front.data.User;
 import kz.timskii.front.security.AuthenticatedUser;
 import kz.timskii.front.services.FileService;
+import kz.timskii.front.views.chat.ChatView;
 import kz.timskii.front.views.folder.ButtonIcons;
 import kz.timskii.front.views.imagegallery.ImageGalleryView;
 import org.vaadin.lineawesome.LineAwesomeIcon;
@@ -183,6 +184,7 @@ public class MainLayout extends AppLayout {
         return new MenuItemInfo[]{ //
                 new MenuItemInfo("Image Gallery", LineAwesomeIcon.TH_LIST_SOLID.create(), ImageGalleryView.class),
                 new MenuItemInfo("Upload Basic", LineAwesomeIcon.TH_LIST_SOLID.create(), UploadBasic.class),
+                new MenuItemInfo("CHAT", LineAwesomeIcon.TH_LIST_SOLID.create(), ChatView.class),
 
         };
     }
