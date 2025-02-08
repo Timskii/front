@@ -1,6 +1,7 @@
 package kz.timskii.front.views;
 
 import com.vaadin.flow.component.Component;
+import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.applayout.AppLayout;
 import com.vaadin.flow.component.avatar.Avatar;
 import com.vaadin.flow.component.contextmenu.MenuItem;
@@ -13,6 +14,7 @@ import com.vaadin.flow.component.sidenav.SideNavItem;
 import com.vaadin.flow.router.Layout;
 import com.vaadin.flow.router.QueryParameters;
 import com.vaadin.flow.router.RouterLink;
+import com.vaadin.flow.server.StreamResource;
 import com.vaadin.flow.server.auth.AccessAnnotationChecker;
 import com.vaadin.flow.server.auth.AnonymousAllowed;
 import com.vaadin.flow.theme.lumo.LumoUtility;
@@ -23,8 +25,10 @@ import kz.timskii.front.services.FileService;
 import kz.timskii.front.views.chat.ChatView;
 import kz.timskii.front.views.folder.ButtonIcons;
 import kz.timskii.front.views.imagegallery.ImageGalleryView;
+import kz.timskii.front.views.profile.PersonFormView;
 import org.vaadin.lineawesome.LineAwesomeIcon;
 
+import java.io.ByteArrayInputStream;
 import java.util.Optional;
 
 /**
@@ -151,6 +155,11 @@ public class MainLayout extends AppLayout {
             div.add(new Icon("lumo", "dropdown"));
             div.addClassNames(Display.FLEX, AlignItems.CENTER, Gap.SMALL);
             userName.add(div);
+
+            userName.getSubMenu().addItem("Profile", e -> {
+                UI.getCurrent().navigate(PersonFormView.class);
+            });
+
             userName.getSubMenu().addItem("Sign out", e -> {
                 authenticatedUser.logout();
             });
@@ -183,7 +192,7 @@ public class MainLayout extends AppLayout {
     private MenuItemInfo[] createMenuItems() {
         return new MenuItemInfo[]{ //
                 new MenuItemInfo("Image Gallery", LineAwesomeIcon.TH_LIST_SOLID.create(), ImageGalleryView.class),
-                new MenuItemInfo("Upload Basic", LineAwesomeIcon.TH_LIST_SOLID.create(), UploadBasic.class),
+                new MenuItemInfo("Person", LineAwesomeIcon.TH_LIST_SOLID.create(), PersonFormView.class),
                 new MenuItemInfo("CHAT", LineAwesomeIcon.TH_LIST_SOLID.create(), ChatView.class),
 
         };

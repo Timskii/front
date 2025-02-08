@@ -6,7 +6,7 @@ spring:
   datasource:
     url: ${DATASOURCE_URL:jdbc:postgresql://localhost:5432/front}
     username: ${DATASOURCE_USERNAME:user}
-    password: ${DATASOURCE_PASSWORD:password}
+    password: ${DATASOURCE_PASSWORD:pass}
     driver-class-name: org.postgresql.Driver
 
 
@@ -73,3 +73,8 @@ springdoc:
     disable-swagger-default-url: true
     url: /api/front
 
+minio:
+  url: ${MINIO_URL:http://localhost:9000}
+  accessKey: ${MINIO_ACCESS_KEY:minioadmin}
+  secretKey: ${MINIO_SECRET_KEY:minioadmin}
+  bucketName: ${MINIO_BUCKET:bucket}
