@@ -25,6 +25,7 @@ import kz.timskii.front.services.FileService;
 import kz.timskii.front.views.chat.ChatView;
 import kz.timskii.front.views.folder.ButtonIcons;
 import kz.timskii.front.views.imagegallery.ImageGalleryView;
+import kz.timskii.front.views.kanban.KanbanView;
 import kz.timskii.front.views.profile.PersonFormView;
 import org.vaadin.lineawesome.LineAwesomeIcon;
 
@@ -194,7 +195,7 @@ public class MainLayout extends AppLayout {
                 new MenuItemInfo("Image Gallery", LineAwesomeIcon.TH_LIST_SOLID.create(), ImageGalleryView.class),
                 new MenuItemInfo("Person", LineAwesomeIcon.TH_LIST_SOLID.create(), PersonFormView.class),
                 new MenuItemInfo("CHAT", LineAwesomeIcon.TH_LIST_SOLID.create(), ChatView.class),
-
+                new MenuItemInfo("Kanban", LineAwesomeIcon.TH_LIST_SOLID.create(), KanbanView.class),
         };
     }
 
