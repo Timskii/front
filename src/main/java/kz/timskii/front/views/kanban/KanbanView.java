@@ -17,28 +17,47 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.Route;
 import jakarta.annotation.security.PermitAll;
+import kz.timskii.front.data.Status;
+import kz.timskii.front.data.Task;
+import kz.timskii.front.data.TaskRepository;
 
 import javax.swing.text.View;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 @Route("/kanban")
 @PermitAll
 public class KanbanView extends VerticalLayout {
 
-    public KanbanView() {
+
+    public KanbanView(TaskRepository taskRepository) {
         HorizontalLayout board = new HorizontalLayout();
         board.setWidthFull();
 
         // Колонки
-        VerticalLayout todoColumn = createColumn("To Do");
-        VerticalLayout inProgressColumn = createColumn("In Progress");
-        VerticalLayout doneColumn = createColumn("Done");
+//        List<Status> statuses = new ArrayList<>(Arrays.stream(Status.values()).toList());
+//        statuses.stream().map(s-> createColumn(s.getName())).forEach(board::add);
+
+
+        VerticalLayout todoColumn = createColumn(Status.TO_DO.getName());
+        VerticalLayout inProgressColumn = createColumn(Status.IN_PROGRESS.getName());
+        VerticalLayout doneColumn = createColumn(Status.DONE.getName());
 
         board.add(todoColumn, inProgressColumn, doneColumn);
 
+        taskRepository.findAll().stream().forEach(
+                task -> {
+                    if (task.getStatus().equals(Status.TO_DO)){
+                        todoColumn.add(createDraggableCard(task.getName()));
+                    } else if (task.getStatus().equals(Status.IN_PROGRESS)){
+                        inProgressColumn.add(createDraggableCard(task.getName()));
+                    }else if (task.getStatus().equals(Status.DONE)){
+                        doneColumn.add(createDraggableCard(task.getName()));
+                    }
+                }
+        );
         // Карточки
-        todoColumn.add(createDraggableCard("Task 1"));
-        todoColumn.add(createDraggableCard("Task 2"));
-        inProgressColumn.add(createDraggableCard("Task 3"));
 
         Button plusButton = new Button(new Icon(VaadinIcon.PLUS));
         plusButton.addThemeVariants(ButtonVariant.LUMO_ICON);
@@ -57,11 +76,15 @@ public class KanbanView extends VerticalLayout {
 
         Button saveButton = new Button("Add", e -> {
             dialog.close();
-            Div div = new Div();
-            div.add(new ViewCard(taskName.getValue(), "https://website.vaadin.com/hs-fs/hubfs/v-24-6-01.png?width=479&height=469&name=v-24-6-01.png"));
-            DragSource<Div> dragSource = DragSource.create(div);
-            dragSource.setDraggable(true);
-            todoColumn.add(div);
+//            Div div = new Div();
+//            div.add(new ViewCard(taskName.getValue(), "https://website.vaadin.com/hs-fs/hubfs/v-24-6-01.png?width=479&height=469&name=v-24-6-01.png"));
+//            DragSource<Div> dragSource = DragSource.create(div);
+//            dragSource.setDraggable(true);
+//            todoColumn.add(div);
+            Task task = new Task();
+            task.setName(taskName.getValue());
+            task.setStatus(Status.TO_DO);
+            taskRepository.save(task);
         });
         Button cancelButton = new Button("Cancel", e -> dialog.close());
         dialog.getFooter().add(cancelButton);
@@ -97,12 +120,7 @@ public class KanbanView extends VerticalLayout {
 
     private Div createDraggableCard(String title) {
         Div card = new Div(new Text(title));
-        card.getStyle()
-                .set("padding", "20px")
-                .set("border", "1px solid #aff")
-                .set("margin", "5px")
-                .set("background-color", "#aaa")
-                .set("cursor", "grab");
+        card.add(new ViewCard(title, "https://website.vaadin.com/hs-fs/hubfs/v-24-6-01.png?width=479&height=469&name=v-24-6-01.png"));
         card.setWidth("80%");
         // Делаем карточку перетаскиваемой
         DragSource<Div> dragSource = DragSource.create(card);
