@@ -47,7 +47,7 @@ public class ImageGalleryView extends Main implements HasComponents, HasStyle, H
     private void updateImages(String folder) {
         imageContainer.removeAll(); // Очищаем старые изображения
         fileService.getFilenamesByFolder(folder)
-                .forEach((f, u) -> imageContainer.add(new ImageGalleryViewCard(f, u)));
+                .forEach((f, u) -> imageContainer.add(new ImageGalleryViewCard(f, u, folder)));
     }
 
     private void constructUI() {
