@@ -39,21 +39,21 @@ public class ImageGalleryViewCard extends ListItem {
 
         div.add(image);
 
-        Span header = new Span();
-        header.addClassNames(FontSize.XLARGE, FontWeight.SEMIBOLD);
-        header.setText("Title");
+//        Span header = new Span();
+//        header.addClassNames(FontSize.XLARGE, FontWeight.SEMIBOLD);
+//        header.setText("Title");
 
-        Span subtitle = new Span();
-        subtitle.addClassNames(FontSize.SMALL, TextColor.SECONDARY);
-        subtitle.setText(filename);
+//        Span subtitle = new Span();
+//        subtitle.addClassNames(FontSize.SMALL, TextColor.SECONDARY);
+//        subtitle.setText(filename);
 
         Paragraph description = new Paragraph(
                 extractMetadata(foldername+"/"+filename));
         description.addClassName(Margin.Vertical.MEDIUM);
 
-        Span badge = new Span();
-        badge.getElement().setAttribute("theme", "badge");
-        badge.setText("Label");
+//        Span badge = new Span();
+//        badge.getElement().setAttribute("theme", "badge");
+//        badge.setText("Label");
 
         // Добавляем кнопку для скачивания изображения
         Button downloadButton = new Button("Download");
@@ -62,7 +62,7 @@ public class ImageGalleryViewCard extends ListItem {
         // Устанавливаем ссылку для скачивания
         Anchor downloadLink = new Anchor(url, downloadButton);
         downloadLink.getElement().setAttribute("download", true); // Устанавливаем атрибут "download"
-        add(div, header, subtitle, description, badge, downloadLink);
+        add(div, description, /*subtitle, header, badge,*/ downloadLink);
 
     }
 
@@ -76,14 +76,14 @@ public class ImageGalleryViewCard extends ListItem {
 
             if (exif != null) {
                 sb.append("Дата съемки: ").append(exif.getDescription(ExifIFD0Directory.TAG_DATETIME)).append("\n");
-                sb.append("Камера: ").append(exif.getDescription(ExifIFD0Directory.TAG_MAKE)).append(" ")
-                        .append(exif.getDescription(ExifIFD0Directory.TAG_MODEL)).append("\n");
+//                sb.append("Камера: ").append(exif.getDescription(ExifIFD0Directory.TAG_MAKE)).append(" ")
+//                        .append(exif.getDescription(ExifIFD0Directory.TAG_MODEL)).append("\n");
             }
 
-            GpsDirectory gps = metadata.getFirstDirectoryOfType(GpsDirectory.class);
-            if (gps != null && gps.getGeoLocation() != null) {
-                sb.append("Геолокация: ").append(gps.getGeoLocation()).append("\n");
-            }
+//            GpsDirectory gps = metadata.getFirstDirectoryOfType(GpsDirectory.class);
+//            if (gps != null && gps.getGeoLocation() != null) {
+//                sb.append("Геолокация: ").append(gps.getGeoLocation()).append("\n");
+//            }
 
             return sb.toString().isEmpty() ? "Нет данных" : sb.toString();
         } catch (Exception e) {
