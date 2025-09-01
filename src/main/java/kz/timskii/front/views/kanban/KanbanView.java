@@ -64,15 +64,17 @@ public class KanbanView extends VerticalLayout {
         plusButton.setAriaLabel("Add item");
 
         Dialog dialog = new Dialog();
-        dialog.setHeaderTitle("New folder");
+        dialog.setHeaderTitle("New task");
 
         TextField taskName = new TextField("task name");
         VerticalLayout dialogLayout = new VerticalLayout(taskName);
         dialogLayout.setPadding(false);
         dialogLayout.setSpacing(false);
         dialogLayout.setAlignItems(FlexComponent.Alignment.STRETCH);
-        dialogLayout.getStyle().set("width", "18rem").set("max-width", "100%");
-               dialog.add(dialogLayout);
+        dialogLayout.getStyle()
+                .set("width", "18rem")
+                .set("max-width", "100%");
+        dialog.add(dialogLayout);
 
         Button saveButton = new Button("Add", e -> {
             dialog.close();
@@ -106,7 +108,11 @@ public class KanbanView extends VerticalLayout {
         column.add(new H3(title));
         column.setWidth("30%");
         column.setHeight("1000px");
-        column.getStyle().set("border", "1px solid #ccc").set("padding", "10px");
+        column.getStyle()
+                .set("border", "1px solid #ccc")
+                .set("padding", "10px")
+                .set("border-radius", "20px");
+        // border-radius: var(--ds-border-radius-300, 12px);
 
         // Добавляем DropTarget, чтобы можно было перетаскивать карточки в колонку
         DropTarget<VerticalLayout> dropTarget = DropTarget.create(column);

@@ -58,7 +58,7 @@ public class ImageGalleryView extends Main implements HasComponents, HasStyle, H
         container.addClassNames(AlignItems.CENTER, JustifyContent.BETWEEN);
 
         VerticalLayout headerContainer = new VerticalLayout();
-        H2 header = new H2("Beautiful photos");
+        H2 header = new H2("photos");
         header.addClassNames(Margin.Bottom.NONE, Margin.Top.XLARGE, FontSize.XXXLARGE);
         Paragraph description = new Paragraph("Royalty free photos and pictures, courtesy of Unsplash");
         description.addClassNames(Margin.Bottom.XLARGE, Margin.Top.NONE, TextColor.SECONDARY);
@@ -66,8 +66,8 @@ public class ImageGalleryView extends Main implements HasComponents, HasStyle, H
 
         Select<String> sortBy = new Select<>();
         sortBy.setLabel("Sort by");
-        sortBy.setItems("Popularity", "Newest first", "Oldest first");
-        sortBy.setValue("Popularity");
+        sortBy.setItems("by date asc", "by date desc", "by size");
+        sortBy.setValue("by date asc");
 
         imageContainer = new OrderedList();
         imageContainer.addClassNames(Gap.SMALL, Display.GRID, ListStyleType.NONE, Margin.MEDIUM, Padding.NONE);

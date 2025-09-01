@@ -85,7 +85,7 @@ public class ImageGalleryViewCard extends ListItem {
             ExifIFD0Directory exif = metadata.getFirstDirectoryOfType(ExifIFD0Directory.class);
 
             if (exif != null) {
-                sb.append("Дата съемки: ").append(exif.getDescription(ExifIFD0Directory.TAG_DATETIME)).append("\n");
+                sb.append("date: ").append(exif.getDescription(ExifIFD0Directory.TAG_DATETIME)).append("\n");
 //                sb.append("Камера: ").append(exif.getDescription(ExifIFD0Directory.TAG_MAKE)).append(" ")
 //                        .append(exif.getDescription(ExifIFD0Directory.TAG_MODEL)).append("\n");
             }
