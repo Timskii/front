@@ -5,6 +5,7 @@ import com.drew.metadata.Metadata;
 import com.drew.metadata.exif.ExifIFD0Directory;
 import com.drew.metadata.exif.GpsDirectory;
 import com.vaadin.flow.component.button.Button;
+import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.component.html.*;
 import com.vaadin.flow.component.html.Image;
 import com.vaadin.flow.theme.lumo.LumoUtility.*;
@@ -33,6 +34,14 @@ public class ImageGalleryViewCard extends ListItem {
 
 
         Image image = new Image(thumbnailUrl, filename);
+
+        Dialog preview = new Dialog();
+        preview.setSizeFull();
+
+
+        image.addClickListener( e -> {
+            preview.open();
+        } );
         image.setWidth("100%");
 //        image.setSrc(url);
 //        image.setAlt(filename);
@@ -58,6 +67,7 @@ public class ImageGalleryViewCard extends ListItem {
         // Добавляем кнопку для скачивания изображения
         Button downloadButton = new Button("Download");
         downloadButton.addClassNames(Margin.Top.MEDIUM);
+        preview.add(downloadButton);
 
         // Устанавливаем ссылку для скачивания
         Anchor downloadLink = new Anchor(url, downloadButton);

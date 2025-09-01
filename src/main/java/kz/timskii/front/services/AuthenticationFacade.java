@@ -12,6 +12,6 @@ public class AuthenticationFacade {
         if (authentication != null && authentication.getPrincipal() instanceof UserDetails) {
             return ((UserDetails) authentication.getPrincipal()).getUsername();
         }
-        return null;
+        return "ANONIM";
     }
 }
