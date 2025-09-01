@@ -3,6 +3,7 @@ package kz.timskii.front.views;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.applayout.AppLayout;
+import com.vaadin.flow.component.applayout.DrawerToggle;
 import com.vaadin.flow.component.avatar.Avatar;
 import com.vaadin.flow.component.contextmenu.MenuItem;
 import com.vaadin.flow.component.html.*;
@@ -125,6 +126,10 @@ public class MainLayout extends AppLayout {
     }
 
     private Component createHeaderContent() {
+
+        DrawerToggle toggle = new DrawerToggle();
+        toggle.setAriaLabel("Menu toggle");
+
         Header header = new Header();
         header.addClassNames(BoxSizing.BORDER, Display.FLEX, FlexDirection.COLUMN, Width.FULL);
 
@@ -186,7 +191,7 @@ public class MainLayout extends AppLayout {
 
         }
 
-        header.add(layout, nav);
+        header.add(layout, toggle, nav);
         return header;
     }
 
